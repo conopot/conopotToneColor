@@ -1,7 +1,7 @@
 <template>
-  <div class="post">
-    <h1>ResultPage</h1>
-</div> 
+  <div class="result-page">
+    <h1>측정 결과 페이지</h1>
+  </div> 
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
 
 <style>
 
-.post {
+.result-page {
   width: 100%;
 }
 .likes {

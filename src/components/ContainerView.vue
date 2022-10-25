@@ -1,11 +1,11 @@
 <template>
   <!-- 웰컴 페이지 -->
   <div v-if="step == 0">
-    <WelcomePage/>
+    <WelcomePage :step="step" :singers="singers" v-on:result="showResult"/>
   </div>  
   <!-- 측정 결과 페이지 -->
   <div v-if="step == 1">
-    <ResultPage :singer="singer" v-for="(singer) in singers" :key="singer" />
+    <ResultPage/>
   </div>
 </template>
 
@@ -13,21 +13,24 @@
 import WelcomePage from './WelcomePage.vue'
 import ResultPage from './ResultPage.vue'
 import singerData from '../assets/singerdata.js'
+import { mapMutations } from 'vuex'
 
 export default {
   data() {
     return {
       singers : singerData,
+      step : 0,
     }
-  },
-  props: {
-    step : Number,
   },
   components: {
     WelcomePage,
     ResultPage,
   },
   methods: {
+    ...mapMutations(['setMore']),
+    showResult(){
+       this.step = 1;
+     },
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <ContainerView :step="step"/>
+  <ContainerView/>
 
   <!-- <div v-if="step == 0" class="footer">
     <ul class="footer-button-plus">
@@ -18,11 +18,11 @@
 import ContainerView from './components/ContainerView.vue'
 
 export default {
-  data() {
-    return {
-      step : 0,
-    }
-  },
+  // data() {
+  //   return {
+  //     step : 0,
+  //   }
+  // },
   name: 'App',
   // mounted() {
   //   this.emitter.on('wearColor', (color)=> {

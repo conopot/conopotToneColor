@@ -9,7 +9,19 @@
       <div>녹음은 10초 이상 진행해주세요!</div>
       <button class="analysis-button">녹음하기</button>
     </div>
-    <div class="shared-text">이 페이지 공유하기</div>
+    <div class="welcome-result">
+      <button class="analysis-button" @click="$emit('result')">결과보기</button>
+    </div>
+    <div class="welcome-share">
+      <div class="shared-text">이 페이지 공유하기</div>
+      <div class="share-icon">
+        <a class="img-kakao" @click="sendkakao">
+          <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+            alt="카카오톡 공유 보내기 버튼" />
+        </a>
+        <img class="img-url" src="../assets/iu.png"/>
+      </div>
+    </div>
 </div> 
 </template>
 
@@ -17,19 +29,27 @@
 export default {
   name: 'WelcomePage',
   props: {
-    singer : Object,
+    step : Number,
+    singers : Object,
   },
-//   data() {
-//     return {
-//       likes : this.post.likes,
-//     }
-//   },
-//   methods: {
-//     incLike() {
-//       this.likes++;
-//     }
-//   }
-}
+  methods: {
+    sendkakao: function () {
+                window.Kakao.Link.sendDefault({
+        objectType: 'text',
+        text:
+          '기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오링크는 다른 템플릿을 이용해 보낼 수 있습니다.',
+        link: {
+          mobileWebUrl:
+            'https://developers.kakao.com',
+          webUrl:
+            'https://developers.kakao.com'
+        }
+      }
+      )
+            }
+        },
+  }
+
 </script>
 
 <style>
@@ -70,6 +90,25 @@ span.toneAnalysis {
 .shared-text {
     font-weight: 600;
 }
+
+.welcome-share {
+  margin : 2rem;
+}
+
+.share-icon {
+  margin : 0.5rem;
+}
+
+.img-kakao {
+  width: 45%; 
+  float: left;
+}
+
+.img-url {
+  width: 45%; 
+  float: right;
+}
+
 
 .post {
   width: 100%;
