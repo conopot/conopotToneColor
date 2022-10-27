@@ -16,37 +16,47 @@
       <div class="shared-text">이 페이지 공유하기</div>
       <div class="share-icon">
         <a class="img-kakao" @click="sendkakao">
-          <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-            alt="카카오톡 공유 보내기 버튼" />
+          <button class="kakao-share-btn">카카오톡 공유</button>
         </a>
-        <img class="img-url" src="../assets/iu.png"/>
+        <button class="link-share-btn" @click="doCopy">링크 공유</button>
+          
       </div>
     </div>
 </div> 
 </template>
 
 <script>
+
 export default {
+  el: '#app',
   name: 'WelcomePage',
   props: {
     step : Number,
     singers : Object,
   },
+  data() {
+    // eslint-disable-next-line no-unused-labels
+    myInput: ''
+  },
   methods: {
     sendkakao: function () {
-                window.Kakao.Link.sendDefault({
-        objectType: 'text',
-        text:
-          '기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오링크는 다른 템플릿을 이용해 보낼 수 있습니다.',
-        link: {
-          mobileWebUrl:
-            'https://developers.kakao.com',
-          webUrl:
-            'https://developers.kakao.com'
-        }
-      }
-      )
-            }
+      window.Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+                title: "애창곡 노트",
+                description: "내 음색에 맞는 가수 찾기",
+                imageUrl: "../assets/conologo.png",
+                link: {
+                    mobileWebUrl: "https://developers.kakao.com",
+                    webUrl: "https://developers.kakao.com"
+                }
+            },
+      })
+    },
+    doCopy() {
+      this.$copyText(this.myInput);
+      alert(this.myInput + '을 복사했습니다.');
+    },
         },
   }
 
@@ -99,14 +109,25 @@ span.toneAnalysis {
   margin : 0.5rem;
 }
 
-.img-kakao {
-  width: 45%; 
-  float: left;
+
+.kakao-share-btn {
+  margin-right: 0.5rem;
+    padding : 0.5rem;
+    background-color: #FFEB3A;
+    color: #40232A;
+    border-radius: 15px;
+    border: none;
+    font-weight: 600;
 }
 
-.img-url {
-  width: 45%; 
-  float: right;
+.link-share-btn {
+  margin-left: 0.5rem;
+    padding : 0.5rem;
+    background-color: lightskyblue;
+    color: white;
+    border-radius: 15px;
+    border: none;
+    font-weight: 600;
 }
 
 
