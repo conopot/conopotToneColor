@@ -5,7 +5,7 @@
   </div>  
   <!-- 측정 결과 페이지 -->
   <div v-if="step == 1">
-    <ResultPage/>
+    <ResultPage :singerName="singerName"/>
   </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       singers : singerData,
+      singerName : '',
       step : 0,
     }
   },
@@ -28,8 +29,9 @@ export default {
   },
   methods: {
     ...mapMutations(['setMore']),
-    showResult(){
+    showResult(name){
        this.step = 1;
+       this.singerName = name;
      },
   }
 }
