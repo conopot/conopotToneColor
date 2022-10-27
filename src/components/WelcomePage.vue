@@ -18,48 +18,48 @@
         <a class="img-kakao" @click="sendkakao">
           <button class="kakao-share-btn">카카오톡 공유</button>
         </a>
-        <button class="link-share-btn" @click="doCopy">링크 공유</button>
-          
+        <a class="img-url" @click="doCopy">
+          <button class="link-share-btn">링크 공유</button>
+        </a>
       </div>
     </div>
 </div> 
 </template>
 
 <script>
-
-export default {
-  el: '#app',
-  name: 'WelcomePage',
-  props: {
-    step : Number,
-    singers : Object,
-  },
-  data() {
-    // eslint-disable-next-line no-unused-labels
-    myInput: ''
-  },
-  methods: {
-    sendkakao: function () {
-      window.Kakao.Link.sendDefault({
-        objectType: 'feed',
-        content: {
-                title: "애창곡 노트",
-                description: "내 음색에 맞는 가수 찾기",
-                imageUrl: "../assets/conologo.png",
-                link: {
-                    mobileWebUrl: "https://developers.kakao.com",
-                    webUrl: "https://developers.kakao.com"
-                }
-            },
-      })
+  export default {
+    el: '#app',
+    name: 'WelcomePage',
+    props: {
+      step : Number,
+      singers : Object,
     },
-    doCopy() {
-      this.$copyText(this.myInput);
-      alert(this.myInput + '을 복사했습니다.');
+    data() {
+      return {
+        myInput: window.location.href,
+      }
     },
-        },
+    methods: {
+      sendkakao: function () {
+        window.Kakao.Link.sendDefault({
+          objectType: 'feed',
+          content: {
+                  title: "애창곡 노트",
+                  description: "내 음색에 맞는 가수 찾기",
+                  imageUrl: "../assets/conologo.png",
+                  link: {
+                      mobileWebUrl: "https://developers.kakao.com",
+                      webUrl: "https://developers.kakao.com"
+                  }
+              },
+        })
+      },
+      doCopy() {
+        this.$copyText(this.myInput);
+        alert(this.myInput + '을 복사했습니다.');
+      }
+    },
   }
-
 </script>
 
 <style>
