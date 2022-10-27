@@ -9,3 +9,9 @@ import store from './store.js'
 import './registerServiceWorker'
 
 app.use(store).mount('#app')
+
+// Vue Clipboard Library : 클립보드에 URL 복사 시 사용
+import VueClipboard from 'vue-clipboard2'
+
+VueClipboard.config.autoSetContainer = true;
+app.use(VueClipboard)

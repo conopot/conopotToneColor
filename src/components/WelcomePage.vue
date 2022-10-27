@@ -15,8 +15,9 @@
         <a class="img-kakao" @click="sendkakao">
           <button class="kakao-share-btn">카카오톡 공유</button>
         </a>
-        <button class="link-share-btn" @click="doCopy">링크 공유</button>
-          
+        <a class="img-url" @click="doCopy">
+          <button class="link-share-btn">링크 공유</button>
+        </a>
       </div>
     </div>
 </div> 
@@ -55,6 +56,10 @@ export default {
             },
       })
     },
+    doCopy() {
+      this.$copyText(this.myInput);
+      alert(this.myInput + '을 복사했습니다.');
+    }
   },
 }
 
