@@ -36,6 +36,11 @@ export default {
   components: {
     MeasurePage,
   },
+  data() {
+      return {
+        myInput: window.location.href,
+      }
+  },
   methods: {
     ...mapMutations(['setMore']),
     result(name){
