@@ -1,6 +1,7 @@
 <template>
   <div class="result-page">
     <h1>측정 결과 페이지</h1>
+    <div>{{ singerName }}</div>
   </div> 
 </template>
 
@@ -9,6 +10,7 @@ export default {
   name: 'ResultPage',
   props: {
     singer : Object,
+    singerName : String,
   },
 //   data() {
 //     return {
