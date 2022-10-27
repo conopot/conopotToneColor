@@ -5,12 +5,9 @@
     <div>위 사진은 Carousel 처럼 사진 둥둥 띄울 예정</div>
     <div class="welcome-subtitle"><span class="toneAnalysis">음색 분석</span>을 위해 당신의 목소리를 녹음해주세요! </div>
     <div class="analysis-box">
-      <div>❗️ 결과의 정확성을 위해</div>
+      <div>결과의 정확성을 위해</div>
       <div>녹음은 10초 이상 진행해주세요!</div>
-      <button class="analysis-button">녹음하기</button>
-    </div>
-    <div class="welcome-result">
-      <button class="analysis-button" @click="$emit('result')">결과보기</button>
+      <MeasurePage v-on:result="result"/>
     </div>
     <div class="welcome-share">
       <div class="shared-text">이 페이지 공유하기</div>
@@ -26,19 +23,24 @@
 </template>
 
 <script>
+import MeasurePage from './MeasurePage.vue'
+import { mapMutations } from 'vuex'
 
 export default {
-  el: '#app',
   name: 'WelcomePage',
   props: {
     step : Number,
     singers : Object,
   },
-  data() {
-    // eslint-disable-next-line no-unused-labels
-    myInput: ''
+  components: {
+    MeasurePage,
   },
   methods: {
+    ...mapMutations(['setMore']),
+    result(name){
+       this.$emit("result", name);
+     },
+
     sendkakao: function () {
       window.Kakao.Link.sendDefault({
         objectType: 'feed',
@@ -53,12 +55,8 @@ export default {
             },
       })
     },
-    doCopy() {
-      this.$copyText(this.myInput);
-      alert(this.myInput + '을 복사했습니다.');
-    },
-        },
-  }
+  },
+}
 
 </script>
 
@@ -85,16 +83,6 @@ span.toneAnalysis {
     padding: 10px 30px;
     box-shadow: 3px 3px 3px grey;
     border-radius: 15px;
-}
-
-.analysis-button {
-    margin-top : 0.5rem;
-    padding : 5px 3rem 5px 3rem;
-    background-color: #FF8A3D;
-    color: white;
-    border-radius: 15px;
-    border: none;
-    font-weight: 600;
 }
 
 .shared-text {
