@@ -53,10 +53,10 @@ export default {
         content: {
                 title: "애창곡 노트",
                 description: "내 음색에 맞는 가수 찾기",
-                imageUrl: "../assets/conologo.png",
+                imageUrl: "https://drive.google.com/file/d/1Vw33z5Hy6BgJOEzPvjligDaqf4hE6tZj/view?usp=sharing",
                 link: {
-                    mobileWebUrl: "https://developers.kakao.com",
-                    webUrl: "https://developers.kakao.com"
+                    mobileWebUrl: "https://conopot.netlify.app",
+                    webUrl: "https://conopot.netlify.app"
                 }
             },
       })
@@ -91,7 +91,7 @@ span.toneAnalysis {
 .analysis-box {
     margin : 2rem;
     padding: 10px 30px;
-    box-shadow: 3px 3px 3px grey;
+    box-shadow: 0px 8px 6px -6px #666;
     border-radius: 15px;
 }
 

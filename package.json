@@ -13,6 +13,7 @@
     "core-js": "^3.8.3",
     "fs": "^0.0.1-security",
     "mitt": "^3.0.0",
+    "pitchy": "^4.0.7",
     "register-service-worker": "^1.7.2",
     "util": "^0.12.5",
     "vue": "^3.2.31",

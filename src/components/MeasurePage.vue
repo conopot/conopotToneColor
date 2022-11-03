@@ -1,7 +1,12 @@
 <template>
+  <canvas
+      id="pitch-graph"
+      aria-label="Recorded pitch graph"
+      >No pitches recorded
+      </canvas>
   <div class="measure-title">
     <div id="label-container"></div>
-    <p class="result-content">{{ current }}</p>
+    <!-- <p class="result-content">{{ current }}</p> -->
     <button v-if="recordStatus == 0" type="button" @click="init">녹음하기</button>
     <button v-if="recordStatus == 1" type="button" @click="stop">중지</button>
     <button v-if="recordStatus == 2" type="button" @click="inference">결과보기</button>
@@ -9,7 +14,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'MeasurePage',
   data() {
@@ -20,6 +24,21 @@ export default {
       scoreBySinger : Array,
       bestSingerByScore : '',
       current : '',
+      history: [],
+      historyLength : 100,
+      minClarityPercent : 95,
+      minPitch : 60,
+      maxPitch : 10000,
+      overrideSampleRate : false,
+      desiredSampleRate : 44100,
+      sampleRate : null,
+      inputBufferSize : 2048,
+      canvas : Object,
+      micStream : Object,
+      analyserNode : Object,
+      detector : Object,
+      inputBuffer : Object,
+      intervalHandle : Object,
     }
   },
   methods: {
@@ -59,9 +78,20 @@ export default {
             overlapFactor: 0.50 // probably want between 0.5 and 0.75. More info in README
         });
 
-        // Stop the recognition in 10 seconds.
-        // 이건 내가 임의로 10초까지만 녹음하도록 해 놓은 거고, 요구사항처럼 최소 10초, 최대 1분까지로 정하면 될듯
-        setTimeout(() => this.recognizer.stopListening(), 10000);
+      
+      this.canvas = document.getElementById("pitch-graph");
+
+      this.setUpdatePitchInterval(50);
+
+      navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+        this.micStream = stream;
+        this.resetAudioContext();
+      });
+
+
+      // Stop the recognition in 10 seconds.
+      // 이건 내가 임의로 10초까지만 녹음하도록 해 놓은 거고, 요구사항처럼 최소 10초, 최대 1분까지로 정하면 될듯
+      // setTimeout(() => this.recognizer.stopListening(), 10000);
     },
 
     createModel: async function () {
@@ -104,8 +134,136 @@ export default {
         this.current = "최고점수 : " + this.bestSingerByScore;
         this.$emit("result", this.bestSingerByScore);
     },
-  }
+
+    drawGraph: function() {
+        if (!this.canvas) return;
+
+        const [w, h] = [this.canvas.width, this.canvas.height];
+        const ctx = this.canvas.getContext("2d");
+        if (!ctx) return;
+
+        ctx.clearRect(0, 0, w, h);
+
+        const matchesConditions = ([pitch, clarity]) =>
+          pitch >= this.minPitch &&
+          pitch <= this.maxPitch &&
+          100 * clarity >= this.minClarityPercent;
+        const filteredHistory = this.history.filter(matchesConditions);
+        if (filteredHistory.length == 0) {
+          this.canvas.innerText = "No pitches recorded";
+          return;
+        }
+
+        const headingHeight = 100;
+        const labelWidth = 100;
+        const yPadding = 20;
+
+        let [lastPitch, lastClarityPercent] =
+          filteredHistory[filteredHistory.length - 1];
+        lastPitch = Math.round(lastPitch * 10) / 10;
+        lastClarityPercent = Math.round(lastClarityPercent * 1000) / 10;
+
+        this.canvas.innerText = `Last pitch: ${lastPitch.toFixed(
+          1
+        )} Hz at ${lastClarityPercent.toFixed(1)}% clarity`;
+
+        const filteredPitches = filteredHistory.map(([pitch]) => pitch);
+        const logMin = Math.log2(Math.min(...filteredPitches));
+        const logMax = Math.log2(Math.max(...filteredPitches));
+        const xOffset =
+          ((w - labelWidth) * (this.historyLength - this.history.length)) / this.historyLength;
+        const x = (i) => xOffset + ((w - labelWidth) * i) / (this.historyLength - 1);
+        const y = (v) =>
+          headingHeight +
+          yPadding +
+          (h - headingHeight - 2 * yPadding) *
+            (1 - (Math.log2(v) - logMin) / (logMax - logMin));
+
+        ctx.font = "16px system-ui, -apple-system";
+        ctx.fillStyle = "#111111";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(
+          `${lastPitch.toFixed(1)} Hz (${lastClarityPercent.toFixed(1)}%)`,
+          w / 2,
+          headingHeight / 2,
+          w
+        );
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#1e9be9";
+        ctx.beginPath();
+        for (let i = 0; i < this.history.length; i++) {
+          if (
+            i > 0 &&
+            matchesConditions(this.history[i - 1]) &&
+            matchesConditions(this.history[i])
+          ) {
+            ctx.lineTo(x(i), y(this.history[i][0]));
+          } else {
+            ctx.moveTo(x(i), y(this.history[i][0]));
+          }
+        }
+        ctx.stroke();
+
+        ctx.font = "16px system-ui, -apple-system";
+        ctx.fillStyle = "#111111";
+        ctx.strokeStyle = "#aaaaaa";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.beginPath();
+        ctx.moveTo(0, y(lastPitch));
+        ctx.lineTo(w - labelWidth, y(lastPitch));
+        ctx.stroke();
+        ctx.fillText(
+          `${lastPitch.toFixed(1)} Hz`,
+          w - labelWidth,
+          y(lastPitch),
+          labelWidth
+        );
+      },
+
+      updatePitch: function() {
+        if (!this.analyserNode || !this.detector || !this.sampleRate || !this.inputBuffer) return;
+
+        this.analyserNode.getFloatTimeDomainData(this.inputBuffer);
+        this.history.push(this.detector.findPitch(this.inputBuffer, this.sampleRate));
+        if (this.history.length > this.historyLength) {
+          this.history.shift();
+        }
+      },
+
+      setUpdatePitchInterval: function(interval) {
+        if (this.intervalHandle !== undefined) {
+          clearInterval(this.intervalHandle);
+        }
+        this.intervalHandle = setInterval(() => {
+          this.updatePitch();
+          this.drawGraph();
+        }, interval);
+      },
+
+      resetAudioContext: async function() {
+        const { PitchDetector } = await import ("pitchy");
+        this.sampleRate = this.analyserNode = this.inputBuffer = null;
+
+        const audioContextOptions = {};
+        if (this.overrideSampleRate) {
+          audioContextOptions.sampleRate = this.desiredSampleRate;
+        }
+        const audioContext = new AudioContext(audioContextOptions);
+        this.sampleRate = audioContext.sampleRate;
+
+        this.analyserNode = new AnalyserNode(audioContext, {
+          fftSize: this.inputBufferSize,
+        });
+        audioContext.createMediaStreamSource(this.micStream).connect(this.analyserNode);
+        this.detector = PitchDetector.forFloat32Array(this.analyserNode.fftSize);
+        this.inputBuffer = new Float32Array(this.detector.inputLength);
+      }
+  },
 }
+
 
 </script>
 
@@ -137,4 +295,23 @@ button:active {
   margin: 3rem;
 }
 
+canvas {
+  display: block;
+  margin: auto;
+
+  width: 20rem;
+  height: 20rem;
+
+  border: 1px solid #777;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  margin-top: 0.5rem;
+  width: 100%;
+}
 </style>

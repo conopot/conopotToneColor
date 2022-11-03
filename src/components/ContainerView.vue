@@ -1,7 +1,7 @@
 <template>
   <!-- 웰컴 페이지 -->
   <div v-if="step == 0">
-    <WelcomePage :step="step" :singers="singers" v-on:result="showResult"/>
+    <WelcomePage :step="step" v-on:result="showResult"/>
   </div>  
   <!-- 측정 결과 페이지 -->
   <div v-if="step == 1">
@@ -12,13 +12,11 @@
 <script>
 import WelcomePage from './WelcomePage.vue'
 import ResultPage from './ResultPage.vue'
-import singerData from '../assets/singerdata.js'
 import { mapMutations } from 'vuex'
 
 export default {
   data() {
     return {
-      singers : singerData,
       singerName : '',
       step : 0,
     }
@@ -30,6 +28,7 @@ export default {
   methods: {
     ...mapMutations(['setMore']),
     showResult(name){
+      console.log(name);
        this.step = 1;
        this.singerName = name;
      },
