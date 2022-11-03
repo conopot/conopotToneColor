@@ -1,15 +1,20 @@
 <template>
+  <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
+  <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
+  <div v-if="recordStatus == 1">측정 중입니다 ..</div>
+  <div v-if="recordStatus == 2">결과보기 버튼을 눌러주세요!</div>
   <canvas
       id="pitch-graph"
       aria-label="Recorded pitch graph"
       >No pitches recorded
       </canvas>
   <div class="measure-title">
-    <div id="label-container"></div>
+    <!-- <div id="label-container"></div> -->
     <!-- <p class="result-content">{{ current }}</p> -->
     <button v-if="recordStatus == 0" type="button" @click="init">녹음하기</button>
     <button v-if="recordStatus == 1" type="button" @click="stop">중지</button>
     <button v-if="recordStatus == 2" type="button" @click="inference">결과보기</button>
+    <button v-if="recordStatus == 2" type="button" @click="retry">다시 측정하기</button>
   </div> 
 </template>
 
@@ -48,10 +53,6 @@ export default {
 
         this.recognizer = await this.createModel();
         this.classLabels = this.recognizer.wordLabels(); // class label, 즉 가수 라벨을 받아옴 (ex. 임창정 = 1, 아이유 = 2)
-        const labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < this.classLabels.length; i++) {
-            labelContainer.appendChild(document.createElement("div"));
-        }
 
         // 각 가수당 몇 점을 얻었는지 저장
         // 저장하는 이유 : 가수 별로 나온 점수들을 누적해놓고, 누적 점수가 가장 높은 가수를 결과 화면에 보여주기 위해서
@@ -67,9 +68,7 @@ export default {
 
             // render the probability scores per class
             for (let i = 0; i < this.classLabels.length; i++) {
-                const classPrediction = this.classLabels[i] + ": " + result.scores[i].toFixed(2);
                 this.scoreBySinger[i] += result.scores[i];
-                labelContainer.childNodes[i].innerHTML = classPrediction; // 이번 Turn(1초)에 각 label들이 몇 점을 얻었는지 ex) 10cm: 0.06
             }
         }, {
             includeSpectrogram: true, // in case listen should return result.spectrogram
@@ -133,6 +132,10 @@ export default {
         // 만약 최고점수가 0점이면, 다시 측정하라고 처리해주기 !!!!
         this.current = "최고점수 : " + this.bestSingerByScore;
         this.$emit("result", this.bestSingerByScore);
+    },
+
+    retry: function() {
+      this.recordStatus = 1;
     },
 
     drawGraph: function() {
@@ -275,7 +278,7 @@ export default {
 }
 
 button {
-  margin-top : 0.5rem;
+  margin : 0.5rem;
   padding : 5px 3rem 5px 3rem;
   background-color: #FF8A3D;
   color: white;
@@ -296,13 +299,12 @@ button:active {
 }
 
 canvas {
-  display: block;
-  margin: auto;
+  margin-top: 1rem;
 
-  width: 20rem;
-  height: 20rem;
-
-  border: 1px solid #777;
+  width: 22rem;
+  height: 22rem;
+  align-content: center;
+  border: 0.5px solid #777;
 }
 
 .row {
