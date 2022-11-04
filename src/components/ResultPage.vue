@@ -8,45 +8,37 @@
     <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 노래 </div>
     <div class="result-singer-song-list">
       <div class="result-singer-song-card">
-        <div class="song-title">1위</div>
+        <div class="song-title" style="color:#D5A11E">1위</div>
         <img class="song-image" :src="singerSong1" />
         <div class="song-title">{{ title[this.singerName][0] }}</div>
       </div>
       <div class="result-singer-song-card">
-        <div class="song-title">2위</div>
+        <div class="song-title" style="color:#A3A3A3">2위</div>
         <img class="song-image" :src="singerSong2" />
         <div class="song-title">{{ title[this.singerName][1] }}</div>
       </div>
       <div class="result-singer-song-card">
-        <div class="song-title">3위</div>
+        <div class="song-title" style="color:#CD7F32">3위</div>
         <img class="song-image" :src="singerSong3" />
         <div class="song-title">{{ title[this.singerName][2] }}</div>
       </div>
     </div>
-    <img class="result-footer-image" src="../assets/promotion.png" />
-    <div class="welcome-share">
-      <div class="shared-text">이 페이지 공유하기</div>
-      <div class="share-icon">
-        <a class="img-kakao" @click="sendkakao">
-          <button class="kakao-share-btn">카카오톡 공유</button>
-        </a>
-        <a class="img-url" @click="doCopy">
-          <button class="link-share-btn">링크 공유</button>
-        </a>
-      </div>
-    </div>
-    <img class="result-footer-image" src="../assets/footerImage.png" />
+    <FooterView />
   </div> 
 </template>
 
 <script>
 import songtitle from '../assets/songtitle.js'
+import FooterView from './FooterView.vue'
 import { mapMutations } from 'vuex'
 
 export default {
   name: 'ResultPage',
   props: {
     singerName : String, //받아온 가수 이름
+  },
+  components: {
+    FooterView,
   },
   data() {
     return {
@@ -59,10 +51,6 @@ export default {
   },
   methods: {
     ...mapMutations(['setMore']),
-    result(name){
-       this.$emit("result", name);
-     },
-
     sendkakao: function () {
       window.Kakao.Link.sendDefault({
         objectType: 'feed',
@@ -89,21 +77,21 @@ export default {
 
 * {
   text-align : center;
+  font-weight: 600;
 }
 .result-page {
   width: 100%;
 }
 
 .result-title {
-  font-size: 1em;
-  font-weight: 600;
+  font-size: 1.3em;
   margin-top: 1em;
 }
 
 .result-singer-name {
-  font-weight: 600;
   color: #FF8A3D;
   margin-top: 1em;
+  font-size: 1.3em;
 }
 
 .result-singer-image {
@@ -112,24 +100,22 @@ export default {
 }
 
 .result-subtitle {
-  font-weight: 600;
   margin-top: 2em;
+  font-size: 1.2em;
 }
 
 .result-text-orange {
-  font-weight: 600;
   color: #FF8A3D;
 }
 
 .result-singer-song-list {
   display: flex;
-  margin: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .result-singer-song-card {
   flex: 1;
 
-  margin: 0.5em;
   padding: 0.5em;
   box-shadow: 0px 8px 6px -6px #666;
   border-radius: 5px;
@@ -140,12 +126,8 @@ export default {
 }
 
 .result-footer-image {
-  margin-top: 3em;
-  width: 25em;
-}
-
-.shared-text {
-    font-weight: 600;
+  margin-bottom: 1em;
+  width: 20em;
 }
 
 .welcome-share {
@@ -164,7 +146,6 @@ export default {
     color: #40232A;
     border-radius: 15px;
     border: none;
-    font-weight: 600;
 }
 
 .link-share-btn {
@@ -174,6 +155,10 @@ export default {
     color: white;
     border-radius: 15px;
     border: none;
-    font-weight: 600;
+}
+
+.song-image {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 }
 </style>
