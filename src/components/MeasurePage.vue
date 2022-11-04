@@ -6,15 +6,16 @@
   <canvas
       id="pitch-graph"
       aria-label="Recorded pitch graph"
+      v-if="recordStatus == 1"
       >No pitches recorded
       </canvas>
   <div class="measure-title">
     <!-- <div id="label-container"></div> -->
     <!-- <p class="result-content">{{ current }}</p> -->
-    <button v-if="recordStatus == 0" type="button" @click="init">녹음하기</button>
+    <button v-if="recordStatus == 0" type="button" @click="init">녹음하기&nbsp;&nbsp;🎤</button>
     <button v-if="recordStatus == 1" type="button" @click="stop">중지</button>
+    <button class="retry-button" v-if="recordStatus == 2" type="button" @click="retry">다시 측정하기</button>
     <button v-if="recordStatus == 2" type="button" @click="inference">결과보기</button>
-    <button v-if="recordStatus == 2" type="button" @click="retry">다시 측정하기</button>
   </div> 
 </template>
 
@@ -90,7 +91,7 @@ export default {
 
       // Stop the recognition in 10 seconds.
       // 이건 내가 임의로 10초까지만 녹음하도록 해 놓은 거고, 요구사항처럼 최소 10초, 최대 1분까지로 정하면 될듯
-      // setTimeout(() => this.recognizer.stopListening(), 10000);
+      // setTimeout(() => this.recognizer.stopListening(), 60000);
     },
 
     createModel: async function () {
@@ -278,11 +279,21 @@ export default {
 }
 
 button {
-  margin : 0.5rem;
-  padding : 5px 3rem 5px 3rem;
+  margin : 1rem;
+  padding : 10px 2rem 10px 2rem;
   background-color: #FF8A3D;
   color: white;
-  border-radius: 15px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+}
+
+.retry-button {
+  margin : 1rem;
+  padding : 10px 1rem 10px 1rem;
+  background-color: #001253;
+  color: white;
+  border-radius: 10px;
   border: none;
   font-weight: 600;
 }
@@ -300,8 +311,7 @@ button:active {
 
 canvas {
   margin-top: 1rem;
-
-  width: 22rem;
+  width: 20rem;
   height: 22rem;
   align-content: center;
   border: 0.5px solid #777;

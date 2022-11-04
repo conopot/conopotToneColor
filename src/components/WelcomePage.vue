@@ -24,23 +24,13 @@
     <div class="analysis-box">
       <MeasurePage v-on:result="result"/>
     </div>
-    <div class="welcome-share">
-      <div class="shared-text">이 페이지 공유하기</div>
-      <div class="share-icon">
-        <a class="img-kakao" @click="sendkakao">
-          <button class="kakao-share-btn">카카오톡 공유</button>
-        </a>
-        <a class="img-url" @click="doCopy">
-          <button class="link-share-btn">링크 공유</button>
-        </a>
-      </div>
-    </div>
+    <FooterView />
 </div> 
 </template>
 
 <script>
 import MeasurePage from './MeasurePage.vue'
-import { mapMutations } from 'vuex'
+import FooterView from './FooterView.vue'
 
 export default {
   name: 'WelcomePage',
@@ -50,36 +40,12 @@ export default {
   },
   components: {
     MeasurePage,
-  },
-  data() {
-      return {
-        myInput: window.location.href,
-      }
+    FooterView,
   },
   methods: {
-    ...mapMutations(['setMore']),
     result(name){
        this.$emit("result", name);
      },
-
-    sendkakao: function () {
-      window.Kakao.Link.sendDefault({
-        objectType: 'feed',
-        content: {
-                title: "애창곡 노트",
-                description: "내 음색에 맞는 가수 찾기",
-                imageUrl: "https://drive.google.com/file/d/1Vw33z5Hy6BgJOEzPvjligDaqf4hE6tZj/view?usp=sharing",
-                link: {
-                    mobileWebUrl: "https://conopot.netlify.app",
-                    webUrl: "https://conopot.netlify.app"
-                }
-            },
-      })
-    },
-    doCopy() {
-      this.$copyText(this.myInput);
-      alert(this.myInput + '을 복사했습니다.');
-    }
   },
 }
 
@@ -113,103 +79,24 @@ span.toneAnalysis {
     font-weight: 600;
 }
 
-.welcome-share {
-  margin : 2rem;
-}
-
-.share-icon {
-  margin : 0.5rem;
-}
-
-
-.kakao-share-btn {
-  margin-right: 0.5rem;
-  padding : 0.5rem;
-  background-color: #FFEB3A;
-  color: #40232A;
-  border-radius: 15px;
-  border: none;
-  font-weight: 600;
-}
-
-.link-share-btn {
-  margin-left: 0.5rem;
-    padding : 0.5rem;
-    background-color: lightskyblue;
-    color: white;
-    border-radius: 15px;
-    border: none;
-    font-weight: 600;
-}
-
-
-.post {
-  width: 100%;
-}
-.likes {
-  width: 22px;
-  display: block;
-  left: 0;
-  margin: 15px;
-}
-.likes:hover {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
-.profile {
-  background-image: url("https://placeimg.com/100/100/arch");
-  width: 30px;
-  height: 30px;
-  background-size: 100%;
-  border-radius: 50%;
-  float: left;
-}
-.profile-name {
-  display: block;
-  float: left;
-  padding-left: 10px;
-  padding-top: 7px;
-  font-size: 14px;
-}
-.post-header {
-  height: 30px;
-  padding: 10px;
-}
-.post-body {
-  background-image: url("https://placeimg.com/640/480/animals");
-  height: 450px;
-  background-position: center;
-  background-size: cover;
-}
-.post-content {
-  padding-left: 15px;
-  padding-right: 15px;
-  font-size: 14px;
-}
-.date {
-  font-size: 11px;
-  color: grey;
-  margin-top: -8px;
-} 
-
 .slider-frame {
   overflow: hidden;
   height: 15rem;
   width: auto;
 }
 
-@-webkit-keyframes slide_animation{
-  0% {left:-120px;}
-  10% {left:-120px;}
+@-webkit-keyframes slide_animation {
+  0% {left:-60px;}
+  /* 10% {left:-120px;}
   20% {left:-240px;}
   30% {left:-240px;}
-  40% {left:-360px;}
-  50% {left:-360px;}
-  60% {left:-240px;}
+  40% {left:-360px;} */
+  50% {left:-720px;}
+  /* 60% {left:-240px;}
   70% {left:-240px;}
   80% {left:-120px;}
-  90% {left:-120px;}
-  100% {left:-120px;}
+  90% {left:-120px;} */
+  100% {left:-60px;}
 }
 
 .slide-images{
