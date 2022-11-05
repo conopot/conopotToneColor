@@ -312,8 +312,6 @@ button:active {
 
 canvas {
   margin-top: 1rem;
-  width: 20rem;
-  height: 22rem;
   align-content: center;
   border: 0.5px solid #FFD6A9;
   color: white;
