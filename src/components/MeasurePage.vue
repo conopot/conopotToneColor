@@ -115,7 +115,6 @@ export default {
         //record 상태 변경 (중지 -> 측정 결과 확인)
         this.recordStatus = 2;
         this.recognizer.stopListening();
-        console.log("Stop Listening");
     },
     inference: function () {
       // 점수 배열 돌면서 가장 높은 점수를 받은 가수를 출력 -> 이 때 배경소음 제외
@@ -136,11 +135,12 @@ export default {
     },
 
     retry: function() {
-      this.recordStatus = 1;
+      this.init();
     },
 
     drawGraph: function() {
         if (!this.canvas) return;
+        this.canvas.style.color = "white";
 
         const [w, h] = [this.canvas.width, this.canvas.height];
         const ctx = this.canvas.getContext("2d");
@@ -183,8 +183,8 @@ export default {
           (h - headingHeight - 2 * yPadding) *
             (1 - (Math.log2(v) - logMin) / (logMax - logMin));
 
-        ctx.font = "16px system-ui, -apple-system";
-        ctx.fillStyle = "#111111";
+        ctx.font = "14px system-ui, -apple-system";
+        ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(
@@ -195,7 +195,7 @@ export default {
         );
 
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#1e9be9";
+        ctx.strokeStyle = "#FF8A3D";
         ctx.beginPath();
         for (let i = 0; i < this.history.length; i++) {
           if (
@@ -210,9 +210,9 @@ export default {
         }
         ctx.stroke();
 
-        ctx.font = "16px system-ui, -apple-system";
-        ctx.fillStyle = "#111111";
-        ctx.strokeStyle = "#aaaaaa";
+        ctx.font = "14px system-ui, -apple-system";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.strokeStyle = "#FFFFFF";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.beginPath();
@@ -278,6 +278,7 @@ export default {
     font-family: 'Pretendard';  
 }
 
+
 button {
   margin : 1rem;
   padding : 10px 2rem 10px 2rem;
@@ -314,7 +315,8 @@ canvas {
   width: 20rem;
   height: 22rem;
   align-content: center;
-  border: 0.5px solid #777;
+  border: 0.5px solid #FFD6A9;
+  color: white;
 }
 
 .row {

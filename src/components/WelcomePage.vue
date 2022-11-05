@@ -1,6 +1,7 @@
 <template>
   <div class="welcome-title">
-    <h3>내 음색에 가장 어울리는 가수는?</h3>
+    <h3 class="welcome-title-text">내 <span class="toneAnalysis">음색</span>에 가장 어울리는 <span class="toneAnalysis">가수</span>는?</h3>
+    <div>AI 음성 분석을 통한 내 목소리와 어울리는 가수 찾기</div>
     <div class="slider-frame">
       <div class="slide-images">
         <div class="img-container">
@@ -20,9 +21,11 @@
         </div>
       </div>
     </div>
-    <div class="welcome-subtitle"><span class="toneAnalysis">음색 분석</span>을 위해 당신의 목소리를 녹음해주세요! </div>
-    <div class="analysis-box">
-      <MeasurePage v-on:result="result"/>
+    <div class="welcome-measure-card">
+      <div class="welcome-subtitle"><span class="toneAnalysis">음색 분석</span>을 위해 당신의 목소리를 녹음해주세요! </div>
+      <div class="analysis-box">
+        <MeasurePage v-on:result="result"/>
+      </div>
     </div>
     <FooterView />
 </div> 
@@ -55,24 +58,19 @@ export default {
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 * {
-    font-family: 'Pretendard';  
+    font-family: 'Pretendard';
+    color: white;
 }
 .welcome-title {
     text-align : center;
 }
-.welcome-subtitle {
-    margin-top : 5rem;
-    text-align : center;
-    font-weight: 600;
-}
-span.toneAnalysis {
-    color: #FF8A3D;
+
+.welcome-title-text {
+  font-size: 1.3rem;
 }
 
-.analysis-box {
-    margin : 1rem;
-    box-shadow: 0px 8px 6px -6px #666;
-    border-radius: 15px;
+span.toneAnalysis {
+    color: #F0A500;
 }
 
 .shared-text {
@@ -113,9 +111,22 @@ span.toneAnalysis {
 
 .img-container{
   height: 15em;
-  width: 10em;
-  margin: 2em;
+  margin: 1em;
   position: relative;
   float: left;
 }
+
+.welcome-measure-card {
+  margin: 2rem;
+  border-radius: 10px;
+  padding-top: 1rem;
+  border: solid #FFD6A9;
+}
+
+.welcome-subtitle {
+  text-align : center;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+
 </style>

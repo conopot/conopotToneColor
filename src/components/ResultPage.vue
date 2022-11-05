@@ -5,22 +5,24 @@
       <div class="result-singer-name">{{ singerName }}</div>
       <img class="result-singer-image" :src="singerProfile" />
     </div>
-    <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 노래 </div>
-    <div class="result-singer-song-list">
-      <div class="result-singer-song-card">
-        <div class="song-title" style="color:#D5A11E">1위</div>
-        <img class="song-image" :src="singerSong1" />
-        <div class="song-title">{{ title[this.singerName][0] }}</div>
-      </div>
-      <div class="result-singer-song-card">
-        <div class="song-title" style="color:#A3A3A3">2위</div>
-        <img class="song-image" :src="singerSong2" />
-        <div class="song-title">{{ title[this.singerName][1] }}</div>
-      </div>
-      <div class="result-singer-song-card">
-        <div class="song-title" style="color:#CD7F32">3위</div>
-        <img class="song-image" :src="singerSong3" />
-        <div class="song-title">{{ title[this.singerName][2] }}</div>
+    <div class="singer-body">
+      <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 노래 </div>
+      <div class="result-singer-song-list">
+        <div class="result-singer-song-card">
+          <div class="song-title" style="color:#D5A11E">1위</div>
+          <img class="song-image" :src="singerSong1" />
+          <div class="song-title">{{ title[this.singerName][0] }}</div>
+        </div>
+        <div class="result-singer-song-card">
+          <div class="song-title" style="color:#A3A3A3">2위</div>
+          <img class="song-image" :src="singerSong2" />
+          <div class="song-title">{{ title[this.singerName][1] }}</div>
+        </div>
+        <div class="result-singer-song-card">
+          <div class="song-title" style="color:#CD7F32">3위</div>
+          <img class="song-image" :src="singerSong3" />
+          <div class="song-title">{{ title[this.singerName][2] }}</div>
+        </div>
       </div>
     </div>
     <FooterView />
@@ -79,33 +81,41 @@ export default {
   text-align : center;
   font-weight: 600;
 }
+
+.singer-info {
+  margin: 2rem;
+  border-radius: 10px;
+  padding-top: 1rem;
+  border: solid #FFD6A9;
+}
+
+.singer-body {
+  margin: 2rem;
+  border-radius: 10px;
+  padding-top: 1rem;
+  border: solid #FFD6A9;
+}
 .result-page {
   width: 100%;
 }
 
 .result-title {
   font-size: 1.3em;
-  margin-top: 1em;
 }
 
 .result-singer-name {
   color: #FF8A3D;
   margin-top: 1em;
-  font-size: 1.3em;
+  font-size: 1.5em;
 }
 
 .result-singer-image {
-  margin-top: 1.5em;
+  margin: 1.5em;
   border-radius: 50%;
 }
 
 .result-subtitle {
-  margin-top: 2em;
   font-size: 1.2em;
-}
-
-.result-text-orange {
-  color: #FF8A3D;
 }
 
 .result-singer-song-list {
@@ -117,7 +127,6 @@ export default {
   flex: 1;
 
   padding: 0.5em;
-  box-shadow: 0px 8px 6px -6px #666;
   border-radius: 5px;
 }
 
