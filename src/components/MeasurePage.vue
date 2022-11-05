@@ -2,22 +2,23 @@
   <div class="measure-text">
     <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
     <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
-    <div v-if="recordStatus == 1">측정 중입니다 ..</div>
-    <div v-if="recordStatus == 2">결과보기 버튼을 눌러주세요!</div>
+    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 ..</div>
+    <div v-if="recordStatus == 3">결과보기 버튼을 눌러주세요!</div>
   </div>
   <canvas
       id="pitch-graph"
       aria-label="Recorded pitch graph"
-      v-if="recordStatus == 1"
+      v-if="recordStatus == 1 || recordStatus == 2"
       >No pitches recorded
       </canvas>
   <div class="measure-title">
     <!-- <div id="label-container"></div> -->
     <!-- <p class="result-content">{{ current }}</p> -->
     <button v-if="recordStatus == 0" type="button" @click="init">녹음하기&nbsp;&nbsp;🎤</button>
-    <button v-if="recordStatus == 1" type="button" @click="stop">중지</button>
-    <button class="retry-button" v-if="recordStatus == 2" type="button" @click="retry">다시 측정하기</button>
-    <button v-if="recordStatus == 2" type="button" @click="inference">결과보기</button>
+    <button v-if="recordStatus == 1" type="button" style="color:#082032; background-color:#082032">중지</button>
+    <button v-if="recordStatus == 2" type="button" @click="stop">중지</button>
+    <button class="retry-button" v-if="recordStatus == 3" type="button" @click="retry">다시 측정하기</button>
+    <button v-if="recordStatus == 3" type="button" @click="inference">결과보기</button>
   </div> 
 </template>
 
@@ -47,10 +48,13 @@ export default {
       detector : Object,
       inputBuffer : Object,
       intervalHandle : Object,
+      timeOutCnt: false,
     }
   },
   methods: {
     init: async function () {
+        // 5초 후 타임아웃 체크
+        setTimeout(() => this.timeOutCnt = true, 5000);
         //record 상태 변경 (준비 -> 측정 중지)
         this.recordStatus = 1;
 
@@ -73,6 +77,10 @@ export default {
             for (let i = 0; i < this.classLabels.length; i++) {
                 this.scoreBySinger[i] += result.scores[i];
             }
+
+            if(this.timeOutCnt) {
+              this.recordStatus = 2;
+            }
         }, {
             includeSpectrogram: true, // in case listen should return result.spectrogram
             probabilityThreshold: 0.75,
@@ -89,7 +97,6 @@ export default {
         this.micStream = stream;
         this.resetAudioContext();
       });
-
 
       // Stop the recognition in 10 seconds.
       // 이건 내가 임의로 10초까지만 녹음하도록 해 놓은 거고, 요구사항처럼 최소 10초, 최대 1분까지로 정하면 될듯
@@ -115,10 +122,12 @@ export default {
 
     stop: function () {
         //record 상태 변경 (중지 -> 측정 결과 확인)
-        this.recordStatus = 2;
+        this.recordStatus = 3;
         this.recognizer.stopListening();
     },
     inference: function () {
+      //progress bar
+      
       // 점수 배열 돌면서 가장 높은 점수를 받은 가수를 출력 -> 이 때 배경소음 제외
         let cmp = -1.0;
         for (let i = 0; i < this.classLabels.length; i++) {
@@ -129,10 +138,6 @@ export default {
                 cmp = this.scoreBySinger[i];
             }
         }
-
-        console.log("Max Score : " + cmp);
-        // 만약 최고점수가 0점이면, 다시 측정하라고 처리해주기 !!!!
-        this.current = "최고점수 : " + this.bestSingerByScore;
         this.$emit("result", this.bestSingerByScore);
     },
 
@@ -314,6 +319,7 @@ button:active {
 
 canvas {
   margin-top: 1rem;
+  margin-bottom: 1rem;
   align-content: center;
   border: 0.5px solid #FFD6A9;
   color: white;

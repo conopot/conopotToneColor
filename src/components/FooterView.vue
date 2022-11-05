@@ -40,18 +40,11 @@ export default {
     ...mapMutations(['setMore']),
 
     sendkakao: function () {
-      window.Kakao.Link.sendDefault({
-        objectType: 'feed',
-        content: {
-                title: "애창곡 노트",
-                description: "내 음색에 맞는 가수 찾기",
-                imageUrl: "https://drive.google.com/file/d/1Vw33z5Hy6BgJOEzPvjligDaqf4hE6tZj/view?usp=sharing",
-                link: {
-                    mobileWebUrl: "https://conopot.netlify.app",
-                    webUrl: "https://conopot.netlify.app"
-                }
-            },
-      })
+      window.Kakao.Link.sendCustom(
+        {
+          templateId: 85420,
+        }
+      )
     },
     doCopy() {
       this.$copyText(this.myInput);

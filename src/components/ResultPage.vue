@@ -4,6 +4,9 @@
       <div class="result-title">내 음색에 어울리는 가수는</div>
       <div class="result-singer-name">{{ singerName }}</div>
       <img class="result-singer-image" :src="singerProfile" />
+      <a href="https://conopot.netlify.app">
+      <button type="button">측정하러 가기</button>
+      </a>
     </div>
     <div class="singer-body">
       <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 노래 </div>
@@ -90,10 +93,9 @@ export default {
 }
 
 .singer-body {
-  margin: 2rem;
-  border-radius: 10px;
-  padding-top: 1rem;
-  border: solid #FFD6A9;
+    border-radius: 10px;
+    padding-top: 1rem;
+    padding: 1rem;
 }
 .result-page {
   width: 100%;
@@ -125,8 +127,6 @@ export default {
 
 .result-singer-song-card {
   flex: 1;
-
-  padding: 0.5em;
   border-radius: 5px;
 }
 
