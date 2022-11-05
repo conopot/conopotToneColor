@@ -195,7 +195,7 @@ export default {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(
-          `${lastPitch.toFixed(1)} Hz (${lastClarityPercent.toFixed(1)}%)`,
+          `${this.pitchToOctave(lastPitch.toFixed(1))}`,
           w / 2,
           headingHeight / 2,
           w
@@ -271,6 +271,108 @@ export default {
         audioContext.createMediaStreamSource(this.micStream).connect(this.analyserNode);
         this.detector = PitchDetector.forFloat32Array(this.analyserNode.fftSize);
         this.inputBuffer = new Float32Array(this.detector.inputLength);
+      },
+
+      pitchToOctave: function(pitch) {
+        let ret = "";
+        if(65 <= pitch && pitch < 69)
+          ret = "0옥타브 도";
+        else if(69 <= pitch && pitch < 73)
+          ret = "0옥타브 도#";
+        else if(73 <= pitch && pitch < 78)
+          ret = "0옥타브 레";
+        else if(78 <= pitch && pitch < 82)
+          ret = "0옥타브 레#";
+        else if(82 <= pitch && pitch < 87)
+          ret = "0옥타브 미";
+        else if(87 <= pitch && pitch < 92)
+          ret = "0옥타브 파";
+        else if(92 <= pitch && pitch < 98)
+          ret = "0옥타브 파#";
+        else if(98 <= pitch && pitch < 104)
+          ret = "0옥타브 솔";
+        else if(104 <= pitch && pitch < 110)
+          ret = "0옥타브 솔#";
+        else if(110 <= pitch && pitch < 116)
+          ret = "0옥타브 라";
+        else if(116 <= pitch && pitch < 123)
+          ret = "0옥타브 라#";
+        else if(123 <= pitch && pitch < 130)
+          ret = "0옥타브 시";
+        else if (130 <= pitch && pitch < 138)
+          ret = "1옥타브 도";
+        else if (138 <= pitch && pitch < 145)
+          ret = "1옥타브 도#";
+        else if (145 <= pitch && pitch < 155)
+          ret = "1옥타브 레";
+        else if (155 <= pitch && pitch < 160)
+          ret = "1옥타브 레#";
+        else if (160 <= pitch && pitch < 173)
+          ret = "1옥타브 미";
+        else if (173 <= pitch && pitch < 184)
+          ret = "1옥타브 파";
+        else if (184 <= pitch && pitch < 195)
+          ret = "1옥타브 파#";
+        else if (195 <= pitch && pitch < 207)
+          ret = "1옥타브 솔";
+        else if (207 <= pitch && pitch < 218)
+          ret = "1옥타브 솔#";
+        else if (218 <= pitch && pitch < 232)
+          ret = "1옥타브 라";
+        else if (232 <= pitch && pitch < 245)
+          ret = "1옥타브 라#";
+        else if (245 <= pitch && pitch < 260)
+          ret = "1옥타브 시";
+        else if (260 <= pitch && pitch < 276)
+          ret = "2옥타브 도";
+        else if (276 <= pitch && pitch < 290)
+          ret = "2옥타브 도#";
+        else if (290 <= pitch && pitch < 310)
+          ret = "2옥타브 레";
+        else if (310 <= pitch && pitch < 325)
+          ret = "2옥타브 레#";
+        else if (325 <= pitch && pitch < 345)
+          ret = "2옥타브 미";
+        else if (345 <= pitch && pitch < 369)
+          ret = "2옥타브 파";
+        else if (369 <= pitch && pitch < 390)
+          ret = "2옥타브 파#";
+        else if (390 <= pitch && pitch < 414)
+          ret = "2옥타브 솔";
+        else if (414 <= pitch && pitch < 438)
+          ret = "2옥타브 솔#";
+        else if (438 <= pitch && pitch < 465)
+          ret = "2옥타브 라";
+        else if (465 <= pitch && pitch < 492)
+          ret = "2옥타브 라#";
+        else if (492 <= pitch && pitch < 520)
+          ret = "2옥타브 시";
+        else if (520 <= pitch && pitch < 553)
+          ret = "3옥타브 도";
+        else if (553 <= pitch && pitch < 585)
+          ret = "3옥타브 도#";
+        else if (585 <= pitch && pitch < 621)
+          ret = "3옥타브 레";
+        else if (621 <= pitch && pitch < 655)
+          ret = "3옥타브 레#";
+        else if (655 <= pitch && pitch < 695)
+          ret = "3옥타브 미";
+        else if (695 <= pitch && pitch < 739)
+          ret = "3옥타브 파";
+        else if (739 <= pitch && pitch < 780)
+          ret = "3옥타브 파#";
+        else if (780 <= pitch && pitch < 830)
+          ret = "3옥타브 솔";
+        else if (830 <= pitch && pitch < 880)
+          ret = "3옥타브 솔#";
+        else if (880 <= pitch && pitch < 931)
+          ret = "3옥타브 라";
+        else if (931 <= pitch && pitch < 985)
+          ret = "3옥타브 라#";
+        else if (985 <= pitch && pitch <= 990) ret = "3옥타브 시";
+        else ret = "측정 불가";
+
+        return ret;
       }
   },
 }
