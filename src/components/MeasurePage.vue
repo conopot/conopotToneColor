@@ -1,8 +1,10 @@
 <template>
-  <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
-  <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
-  <div v-if="recordStatus == 1">측정 중입니다 ..</div>
-  <div v-if="recordStatus == 2">결과보기 버튼을 눌러주세요!</div>
+  <div class="measure-text">
+    <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
+    <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
+    <div v-if="recordStatus == 1">측정 중입니다 ..</div>
+    <div v-if="recordStatus == 2">결과보기 버튼을 눌러주세요!</div>
+  </div>
   <canvas
       id="pitch-graph"
       aria-label="Recorded pitch graph"
@@ -325,5 +327,9 @@ canvas {
 
   margin-top: 0.5rem;
   width: 100%;
+}
+
+.measure-text {
+  font-size: 0.9em;
 }
 </style>

@@ -127,6 +127,7 @@ span.toneAnalysis {
   text-align : center;
   font-weight: 600;
   padding-bottom: 0.5rem;
+  font-size: 0.9em;
 }
 
 </style>
