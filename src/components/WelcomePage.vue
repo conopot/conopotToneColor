@@ -5,19 +5,19 @@
     <div class="slider-frame">
       <div class="slide-images">
         <div class="img-container">
-          <img src="../assets/singerData/10cm/profile.png">
+          <img src="../assets/singerData/10cm/profile.jpeg">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/경서/profile.png">
+          <img src="../assets/singerData/경서/profile.jpeg">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/성시경/profile.png">
+          <img src="../assets/singerData/성시경/profile.jpeg">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/임창정/profile.png">
+          <img src="../assets/singerData/임창정/profile.jpeg">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/폴킴/profile.png">
+          <img src="../assets/singerData/폴킴/profile.jpeg">
         </div>
       </div>
     </div>
@@ -78,6 +78,7 @@ span.toneAnalysis {
 }
 
 .slider-frame {
+  margin-top: 1rem;
   overflow: hidden;
   height: 15rem;
   width: auto;
@@ -111,9 +112,13 @@ span.toneAnalysis {
 
 .img-container{
   height: 15em;
-  margin: 1em;
+  margin-right: 1em;
   position: relative;
   float: left;
+}
+
+.img-container img {
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .welcome-measure-card {
