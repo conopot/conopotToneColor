@@ -2,7 +2,7 @@
   <div class="measure-text">
     <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
     <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
-    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 ..</div>
+    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ recordCount }} / 5)</div>
     <div v-if="recordStatus == 3">결과보기 버튼을 눌러주세요!</div>
   </div>
   <canvas
@@ -27,6 +27,7 @@ export default {
   name: 'MeasurePage',
   data() {
     return {
+      recordCount : 0,
       recordStatus : 0,
       recognizer : Object,
       classLabels : Array,
@@ -48,13 +49,10 @@ export default {
       detector : Object,
       inputBuffer : Object,
       intervalHandle : Object,
-      timeOutCnt: false,
     }
   },
   methods: {
     init: async function () {
-        // 5초 후 타임아웃 체크
-        setTimeout(() => this.timeOutCnt = true, 5000);
         //record 상태 변경 (준비 -> 측정 중지)
         this.recordStatus = 1;
 
@@ -78,8 +76,11 @@ export default {
                 this.scoreBySinger[i] += result.scores[i];
             }
 
-            if(this.timeOutCnt) {
-              this.recordStatus = 2;
+            if(this.recordCount < 5) {
+                this.recordCount++;
+                if(this.recordCount == 5) {
+                  this.recordStatus = 2;
+                }
             }
         }, {
             includeSpectrogram: true, // in case listen should return result.spectrogram
