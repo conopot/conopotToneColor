@@ -3,10 +3,12 @@
       <div class="shared-text">이 페이지 <span class="result-text-orange">공유</span>하기</div>
       <div class="share-icon">
         <a class="img-kakao" @click="sendkakao">
-          <button class="kakao-share-btn">카카오톡 공유</button>
+          <img src="../assets/kakao-talk.png">
+          <span>카카오톡 공유</span>
         </a>
         <a class="img-url" @click="doCopy">
-          <button class="link-share-btn">링크 공유</button>
+          <img src="../assets/link.png">
+          <span>링크 공유</span>
         </a>
       </div>
     </div>
@@ -42,6 +44,7 @@ export default {
     sendkakao: function () {
       window.Kakao.Link.sendCustom(
         {
+          //측정 화면과 결과 화면일 때 카카오톡 공유 이미지 다르게 부여
           templateId: (this.$route.singer != "") ? 85420 : 85617,
         }
       )
@@ -57,6 +60,20 @@ export default {
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
+.img-kakao img {
+  width: 2rem;
+  display: block;
+  margin: auto;
+  margin-bottom: 0.5rem;
+}
+
+.img-url img {
+  width: 2rem;
+  display: block;
+  margin: auto;
+  margin-bottom: 0.5rem;
+}
+
 .welcome-share {
   margin: 2rem;
   border-radius: 10px;
@@ -70,6 +87,10 @@ export default {
 
 .share-icon {
   margin : 0.5rem;
+}
+
+.share-icon a {
+  display: inline-block;
 }
 
 .footer-result-container {
