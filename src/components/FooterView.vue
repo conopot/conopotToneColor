@@ -42,7 +42,7 @@ export default {
     sendkakao: function () {
       window.Kakao.Link.sendCustom(
         {
-          templateId: 85420,
+          templateId: (this.$route.singer != "") ? 85420 : 85617,
         }
       )
     },

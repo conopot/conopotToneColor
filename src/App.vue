@@ -2,19 +2,16 @@
   <div class="header">
     <img src="./assets/logo.png" class="logo" />
   </div>
+  <router-view />
 
-  <ContainerView/>
+  <!-- <ContainerView/> -->
  
 </template>
 
 <script>
-import ContainerView from './components/ContainerView.vue'
 
 export default {
   name: 'App',
-  components: {
-    ContainerView,
-  },
 }
 </script>
 

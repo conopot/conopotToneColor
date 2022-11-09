@@ -26,8 +26,7 @@ export default {
   },
   methods: {
     showResult(name){
-       this.step = 1;
-       this.singerName = name;
+       this.$router.push(`/${name}`);
      },
   }
 }
