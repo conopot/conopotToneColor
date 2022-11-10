@@ -371,7 +371,7 @@ export default {
         else if (931 <= pitch && pitch < 985)
           ret = "3옥타브 라#";
         else if (985 <= pitch && pitch <= 990) ret = "3옥타브 시";
-        else ret = "측정 불가";
+        else ret = "주변 소음";
 
         return ret;
       }
