@@ -9,7 +9,7 @@
       </a>
     </div>
     <div class="singer-body">
-      <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 노래 </div>
+      <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 <span class="result-text-orange">이 가수의 </span>노래 </div>
       <div class="result-singer-song-list">
         <div class="result-singer-song-card">
           <div class="song-title" style="color:#D5A11E">1위</div>
@@ -28,6 +28,7 @@
         </div>
       </div>
     </div>
+    <div class="result-notice">결과를 믿지 못하시겠다면, 직접 해당 가수의 노래를 틀어 측정해보세요!</div>
     <FooterView />
   </div> 
 </template>
@@ -118,6 +119,12 @@ export default {
 
 .result-subtitle {
   font-size: 1.2em;
+}
+
+.result-notice {
+  font-size: 0.9em;
+  color: #FF8A3D;
+  margin: 1em;
 }
 
 .result-singer-song-list {
