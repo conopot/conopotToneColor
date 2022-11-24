@@ -2,7 +2,8 @@
   <div class="measure-text">
     <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
     <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
-    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ recordCount }} / 5)</div>
+    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ recordCount }} / 5 )</div>
+    <div v-if="recordStatus == 1 || recordStatus == 2">{{this.screenPitch}}</div>
     <div v-if="recordStatus == 3">결과보기 버튼을 눌러주세요!</div>
   </div>
   <canvas
@@ -49,6 +50,7 @@ export default {
       detector : Object,
       inputBuffer : Object,
       intervalHandle : Object,
+      screenPitch : '',
     }
   },
   methods: {
@@ -195,6 +197,7 @@ export default {
         ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+        this.screenPitch = `${this.pitchToOctave(lastPitch.toFixed(1))}`;
         ctx.fillText(
           `${this.pitchToOctave(lastPitch.toFixed(1))}`,
           w / 2,
