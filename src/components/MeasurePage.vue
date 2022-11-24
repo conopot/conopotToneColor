@@ -105,7 +105,7 @@ export default {
     },
 
     createModel: async function () {
-      const URL = "https://teachablemachine.withgoogle.com/models/ZHjjyd5ts/";
+      const URL = "https://teachablemachine.withgoogle.com/models/IuzeO0Z3B/";
       const checkpointURL = URL + "model.json"; // model topology
       const metadataURL = URL + "metadata.json"; // model metadata
 
@@ -133,7 +133,7 @@ export default {
         let cmp = -1.0;
         for (let i = 0; i < this.classLabels.length; i++) {
             // console.log(i + " : " + classLabels[i]);
-            if (this.classLabels[i] === '배경 소음') continue;
+            if (this.classLabels[i] === 'Background Noise') continue;
             if (cmp < this.scoreBySinger[i]) {
                 this.bestSingerByScore = this.classLabels[i];
                 cmp = this.scoreBySinger[i];

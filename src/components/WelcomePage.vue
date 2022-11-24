@@ -5,19 +5,46 @@
     <div class="slider-frame">
       <div class="slide-images">
         <div class="img-container">
-          <img src="../assets/singerData/10cm/profile.jpeg">
+          <img src="../assets/singerData/10cm/profile.png">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/경서/profile.jpeg">
+          <img src="../assets/singerData/크러쉬/profile.png">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/성시경/profile.jpeg">
+          <img src="../assets/singerData/지코/profile.png">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/임창정/profile.jpeg">
+          <img src="../assets/singerData/벤/profile.png">
         </div>
         <div class="img-container">
-          <img src="../assets/singerData/폴킴/profile.jpeg">
+          <img src="../assets/singerData/아이유/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/이수/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/성시경/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/박혜원/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/장범준/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/크러쉬/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/태연/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/임창정/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/폴킴/profile.png">
+        </div>
+        <div class="img-container">
+          <img src="../assets/singerData/경서/profile.png">
         </div>
       </div>
     </div>
@@ -90,7 +117,7 @@ span.toneAnalysis {
   20% {left:-240px;}
   30% {left:-240px;}
   40% {left:-360px;} */
-  50% {left:-720px;}
+  50% {left:-1200px;}
   /* 60% {left:-240px;}
   70% {left:-240px;}
   80% {left:-120px;}
