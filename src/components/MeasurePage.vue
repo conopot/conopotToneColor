@@ -2,7 +2,7 @@
   <div class="measure-text">
     <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
     <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
-    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ recordCount }} / 5 )</div>
+    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ this.timerCount }} / 10 )</div>
     <div v-if="recordStatus == 3">결과보기 버튼을 눌러주세요!</div>
   </div>
   <div v-if="recordStatus == 0.5">
@@ -35,6 +35,8 @@ export default {
   name: 'MeasurePage',
   data() {
     return {
+      timerEnabled: false,
+      timerCount: 0,
       recordCount : 0,
       recordStatus : 0,
       recognizer : Object,
@@ -60,6 +62,30 @@ export default {
       screenPitch : '',
     }
   },
+  watch: {
+
+            timerEnabled(value) {
+                if (value) {
+                    setTimeout(() => {
+                        this.timerCount++;
+                    }, 1000);
+                }
+            },
+
+            timerCount: {
+                handler(value) {
+
+                    if (value < 10 && this.timerEnabled) {
+                        setTimeout(() => {
+                            this.timerCount++;
+                        }, 1000);
+                    }
+
+                },
+                immediate: true // This ensures the watcher is triggered upon creation
+            }
+
+        },
   methods: {
     init: async function () {
         //record 상태 변경 (준비 -> 측정 중지)
@@ -67,6 +93,8 @@ export default {
         this.recordStatus = 0.5;
 
         this.recognizer = await this.createModel();
+
+        this.timerEnabled = true;
 
         this.recordStatus = 1;
 
@@ -91,7 +119,7 @@ export default {
 
             if(this.recordCount < 5) {
                 this.recordCount++;
-                if(this.recordCount == 5) {
+                if(this.recordCount == 1) {
                   this.recordStatus = 2;
                 }
             }
@@ -154,7 +182,7 @@ export default {
                 cmp = this.scoreBySinger[i];
             }
         }
-        setTimeout(() => this.$emit("result", this.bestSingerByScore), 3000);
+        setTimeout(() => this.$emit("result", this.bestSingerByScore), 1500);
     },
 
     retry: function() {
