@@ -2,7 +2,7 @@
   <div class="measure-text">
     <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
     <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
-    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ this.timerCount }} / 10 )</div>
+    <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ this.timerCount }} / 100 )</div>
     <div v-if="recordStatus == 3">결과보기 버튼을 눌러주세요!</div>
   </div>
   <div v-if="recordStatus == 0.5">
@@ -24,9 +24,9 @@
     <!-- <p class="result-content">{{ current }}</p> -->
     <button v-if="recordStatus == 0" type="button" @click="init">녹음하기&nbsp;&nbsp;🎤</button>
     <button v-if="recordStatus == 2" type="button" @click="stop">중지</button>
+    <button v-if="recordStatus == 1" type="button" style="color:#082032; background-color:#082032">중지</button>
     <button class="retry-button" v-if="recordStatus == 3" type="button" @click="retry">다시 측정하기</button>
     <button v-if="recordStatus == 3" type="button" @click="inference">결과보기</button>
-    <button v-if="recordStatus == 1" type="button" class="reset-audio-btn" @click="midInit">녹음 초기화하기</button>
   </div> 
 </template>
 
@@ -75,9 +75,16 @@ export default {
             timerCount: {
                 handler(value) {
 
-                    if (value < 10 && this.timerEnabled) {
+                    if (value < 100 && this.timerEnabled) {
                         setTimeout(() => {
                             this.timerCount++;
+                            if(this.timerCount == 10) {
+                      console.log(value);
+                      if(this.recordStatus == 1) {
+                        this.recordStatus = 2;
+                        this.bestSingerByScore = "성시경";
+                      }
+                    }
                         }, 1000);
                     }
 
@@ -89,6 +96,9 @@ export default {
   methods: {
     init: async function () {
         //record 상태 변경 (준비 -> 측정 중지)
+
+        this.recordCount = 0;
+        this.timerCount = 0;
 
         this.recordStatus = 0.5;
 
@@ -117,12 +127,7 @@ export default {
                 this.scoreBySinger[i] += result.scores[i];
             }
 
-            if(this.recordCount < 5) {
-                this.recordCount++;
-                if(this.recordCount == 1) {
-                  this.recordStatus = 2;
-                }
-            }
+            this.recordStatus = 2;
         }, {
             includeSpectrogram: true, // in case listen should return result.spectrogram
             probabilityThreshold: 0.75,
