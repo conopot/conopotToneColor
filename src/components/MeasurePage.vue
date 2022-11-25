@@ -26,7 +26,7 @@
     <button v-if="recordStatus == 2" type="button" @click="stop">중지</button>
     <button class="retry-button" v-if="recordStatus == 3" type="button" @click="retry">다시 측정하기</button>
     <button v-if="recordStatus == 3" type="button" @click="inference">결과보기</button>
-    <button v-if="recordStatus == 1" type="button" class="reset-audio-btn" @click="resetAudioContext">녹음 초기화하기</button>
+    <button v-if="recordStatus == 1" type="button" class="reset-audio-btn" @click="midInit">녹음 초기화하기</button>
   </div> 
 </template>
 
@@ -143,6 +143,11 @@ export default {
       // Stop the recognition in 10 seconds.
       // 이건 내가 임의로 10초까지만 녹음하도록 해 놓은 거고, 요구사항처럼 최소 10초, 최대 1분까지로 정하면 될듯
       // setTimeout(() => this.recognizer.stopListening(), 60000);
+    },
+
+    midInit: function() {
+      this.stop();
+      this.init();
     },
 
     createModel: async function () {
