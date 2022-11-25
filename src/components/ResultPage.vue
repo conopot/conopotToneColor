@@ -9,7 +9,8 @@
       </a>
     </div>
     <div class="singer-body">
-      <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 {{ singerName }} 노래</div>
+      <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한</div>
+      <div class="result-subtitle">{{ singerName }} 노래</div>
       <div class="result-singer-song-list">
         <div class="result-singer-song-card">
           <div class="song-rank" style="color:#D5A11E">1위</div>
@@ -88,7 +89,7 @@ export default {
 }
 
 .song-title {
-  width:8em;
+  width:7em;
   padding:0 5px;
   overflow:hidden;
   text-overflow:ellipsis;
