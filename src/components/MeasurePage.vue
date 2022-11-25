@@ -23,10 +23,10 @@
     <!-- <div id="label-container"></div> -->
     <!-- <p class="result-content">{{ current }}</p> -->
     <button v-if="recordStatus == 0" type="button" @click="init">녹음하기&nbsp;&nbsp;🎤</button>
-    <button v-if="recordStatus == 1" type="button" style="color:#082032; background-color:#082032">중지</button>
     <button v-if="recordStatus == 2" type="button" @click="stop">중지</button>
     <button class="retry-button" v-if="recordStatus == 3" type="button" @click="retry">다시 측정하기</button>
     <button v-if="recordStatus == 3" type="button" @click="inference">결과보기</button>
+    <button v-if="recordStatus == 1" type="button" class="reset-audio-btn" @click="resetAudioContext">녹음 초기화하기</button>
   </div> 
 </template>
 
@@ -494,4 +494,6 @@ canvas {
 .ai-model-content {
   margin: 1rem;
 }
+
+
 </style>

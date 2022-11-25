@@ -149,6 +149,7 @@ export default {
 }
 
 .result-singer-song-card > img {
+  height: 6em;
   width: 6em;
 }
 
