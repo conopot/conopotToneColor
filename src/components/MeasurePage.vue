@@ -154,7 +154,7 @@ export default {
                 cmp = this.scoreBySinger[i];
             }
         }
-        setTimeout(() => this.$emit("result", this.bestSingerByScore), 5000);
+        setTimeout(() => this.$emit("result", this.bestSingerByScore), 3000);
     },
 
     retry: function() {
