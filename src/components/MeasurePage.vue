@@ -3,14 +3,21 @@
     <div v-if="recordStatus == 0">결과의 정확성을 위해</div>
     <div v-if="recordStatus == 0">녹음은 10초 이상 진행해주세요!</div>
     <div v-if="recordStatus == 1 || recordStatus == 2">측정 중입니다 .. ( {{ recordCount }} / 5 )</div>
-    <div v-if="recordStatus == 1 || recordStatus == 2">{{this.screenPitch}}</div>
     <div v-if="recordStatus == 3">결과보기 버튼을 눌러주세요!</div>
+  </div>
+  <div v-if="recordStatus == 0.5">
+    <img class="ai-model-image" src="../assets/karaoke.png" />
+    <div class="ai-model-content">AI 모델을 생성 중입니다...</div>
+  </div>
+  <div v-if="recordStatus == 4">
+    <img class="ai-model-image" src="../assets/karaoke.png" />
+    <div class="ai-model-content">목소리를 분석중입니다...</div>
   </div>
   <canvas
       id="pitch-graph"
       aria-label="Recorded pitch graph"
-      v-if="recordStatus == 1 || recordStatus == 2"
-      >No pitches recorded
+      v-if="recordStatus == 1 || recordStatus == 2 || recordStatus == 0.5"
+      >
       </canvas>
   <div class="measure-title">
     <!-- <div id="label-container"></div> -->
@@ -56,9 +63,13 @@ export default {
   methods: {
     init: async function () {
         //record 상태 변경 (준비 -> 측정 중지)
-        this.recordStatus = 1;
+
+        this.recordStatus = 0.5;
 
         this.recognizer = await this.createModel();
+
+        this.recordStatus = 1;
+
         this.classLabels = this.recognizer.wordLabels(); // class label, 즉 가수 라벨을 받아옴 (ex. 임창정 = 1, 아이유 = 2)
 
         // 각 가수당 몇 점을 얻었는지 저장
@@ -129,7 +140,9 @@ export default {
         this.recognizer.stopListening();
     },
     inference: function () {
+      
       //progress bar
+      this.recordStatus = 4;
       
       // 점수 배열 돌면서 가장 높은 점수를 받은 가수를 출력 -> 이 때 배경소음 제외
         let cmp = -1.0;
@@ -141,7 +154,7 @@ export default {
                 cmp = this.scoreBySinger[i];
             }
         }
-        this.$emit("result", this.bestSingerByScore);
+        setTimeout(() => this.$emit("result", this.bestSingerByScore), 5000);
     },
 
     retry: function() {
@@ -443,5 +456,14 @@ canvas {
 
 .measure-text {
   font-size: 0.9em;
+}
+
+.ai-model-image {
+  height: 5rem;
+  margin: 1rem;
+}
+
+.ai-model-content {
+  margin: 1rem;
 }
 </style>

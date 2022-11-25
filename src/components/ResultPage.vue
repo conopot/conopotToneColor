@@ -9,26 +9,27 @@
       </a>
     </div>
     <div class="singer-body">
-      <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 <span class="result-text-orange">이 가수의 </span>노래 </div>
+      <div class="result-subtitle"><span class="result-text-orange">애창곡 노트</span> 회원들이 가장 많이 저장한 {{ singerName }} 노래</div>
       <div class="result-singer-song-list">
         <div class="result-singer-song-card">
-          <div class="song-title" style="color:#D5A11E">1위</div>
+          <div class="song-rank" style="color:#D5A11E">1위</div>
           <img class="song-image" :src="singerSong1" />
           <div class="song-title">{{ title[this.singerName][0] }}</div>
         </div>
         <div class="result-singer-song-card">
-          <div class="song-title" style="color:#A3A3A3">2위</div>
+          <div class="song-rank" style="color:#A3A3A3">2위</div>
           <img class="song-image" :src="singerSong2" />
           <div class="song-title">{{ title[this.singerName][1] }}</div>
         </div>
         <div class="result-singer-song-card">
-          <div class="song-title" style="color:#CD7F32">3위</div>
+          <div class="song-rank" style="color:#CD7F32">3위</div>
           <img class="song-image" :src="singerSong3" />
           <div class="song-title">{{ title[this.singerName][2] }}</div>
         </div>
       </div>
     </div>
-    <div class="result-notice">결과를 믿지 못하시겠다면, 직접 해당 가수의 노래를 틀어 측정해보세요!</div>
+    <div class="result-notice">결과를 믿지 못하시겠다면</div>
+    <div class="result-notice">직접 해당 가수의 노래를 틀어 측정해보세요!</div>
     <FooterView />
   </div> 
 </template>
@@ -86,6 +87,14 @@ export default {
   font-weight: 600;
 }
 
+.song-title {
+  width:8em;
+  padding:0 5px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
 .singer-info {
   margin: 2rem;
   border-radius: 10px;
@@ -119,6 +128,7 @@ export default {
 
 .result-subtitle {
   font-size: 1.2em;
+  margin-bottom: 0.3em;
 }
 
 .result-notice {
